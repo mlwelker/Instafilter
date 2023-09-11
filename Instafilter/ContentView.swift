@@ -4,8 +4,6 @@ import SwiftUI
 struct ContentView: View {
     @State private var blurAmount = 0.0
     
-    //CMD + O -> open quickly menu
-    
     var body: some View {
         VStack {
             Text("Hello, world!")
@@ -18,6 +16,11 @@ struct ContentView: View {
             }
         }
         .padding()
+        .onChange(of: blurAmount) { newValue in
+            print("New value: \(newValue)")
+        }
+        // .onChange can be attached to anything in the view hierarchy
+        // recommended to put it on the element that is changing the property
     }
 }
 
