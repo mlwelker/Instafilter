@@ -11,6 +11,7 @@
 		A29393542AAF5932003D0A45 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29393532AAF5932003D0A45 /* ContentView.swift */; };
 		A29393562AAF5933003D0A45 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A29393552AAF5933003D0A45 /* Assets.xcassets */; };
 		A29393592AAF5933003D0A45 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A29393582AAF5933003D0A45 /* Preview Assets.xcassets */; };
+		A29393602AAFD375003D0A45 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A293935F2AAFD375003D0A45 /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		A29393532AAF5932003D0A45 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A29393552AAF5933003D0A45 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A29393582AAF5933003D0A45 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A293935F2AAFD375003D0A45 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			children = (
 				A29393512AAF5932003D0A45 /* InstafilterApp.swift */,
 				A29393532AAF5932003D0A45 /* ContentView.swift */,
+				A293935F2AAFD375003D0A45 /* ImagePicker.swift */,
 				A29393552AAF5933003D0A45 /* Assets.xcassets */,
 				A29393572AAF5933003D0A45 /* Preview Content */,
 			);
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A29393602AAFD375003D0A45 /* ImagePicker.swift in Sources */,
 				A29393542AAF5932003D0A45 /* ContentView.swift in Sources */,
 				A29393522AAF5932003D0A45 /* InstafilterApp.swift in Sources */,
 			);
