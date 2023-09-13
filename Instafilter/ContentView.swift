@@ -6,8 +6,8 @@ import SwiftUI
 struct ContentView: View {
     @State private var image: Image?
     @State private var filterIntensity = 0.5
-    @State private var filterRadius = 0.5
-    @State private var filterScale = 0.5
+    @State private var filterRadius = 5.0
+    @State private var filterScale = 5.0
     
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
@@ -17,6 +17,7 @@ struct ContentView: View {
     let context = CIContext()
     
     @State private var showingFilterSheet = false
+    @State private var showingSaveError = false
     
     var body: some View {
         NavigationView {
@@ -37,29 +38,35 @@ struct ContentView: View {
                     showingImagePicker = true
                 }
                 
-                HStack {
-                    Text("Intensity")
-                    
-                    Slider(value: $filterIntensity)
-                        .onChange(of: filterIntensity) { _ in applyProcessing() }
+                if currentFilter.inputKeys.contains(kCIInputIntensityKey) {
+                    HStack {
+                        Text("Intensity")
+                        
+                        Slider(value: $filterIntensity)
+                            .onChange(of: filterIntensity) { _ in applyProcessing() }
+                    }
+                    .padding(.vertical)
                 }
-                .padding(.vertical)
                 
-                HStack {
-                    Text("Radius")
-                    
-                    Slider(value: $filterRadius)
-                        .onChange(of: filterRadius) { _ in applyProcessing() }
+                if currentFilter.inputKeys.contains(kCIInputRadiusKey) {
+                    HStack {
+                        Text("Radius")
+                        
+                        Slider(value: $filterRadius, in: 0...200)
+                            .onChange(of: filterRadius) { _ in applyProcessing() }
+                    }
+                    .padding(.vertical)
                 }
-                .padding(.vertical)
                 
-                HStack {
-                    Text("Scale")
-                    
-                    Slider(value: $filterScale)
-                        .onChange(of: filterScale) { _ in applyProcessing() }
+                if currentFilter.inputKeys.contains(kCIInputScaleKey) {
+                    HStack {
+                        Text("Scale")
+                        
+                        Slider(value: $filterScale, in: 0...10)
+                            .onChange(of: filterScale) { _ in applyProcessing() }
+                    }
+                    .padding(.vertical)
                 }
-                .padding(.vertical)
                 
                 HStack {
                     Button("Change filter") {
@@ -69,7 +76,7 @@ struct ContentView: View {
                     Spacer()
                     
                     Button("Save image", action: save)
-                        .disabled(image == nil ? true : false)
+                        .disabled(inputImage == nil)
                 }
             }
             .padding([.horizontal, .bottom])
@@ -79,15 +86,27 @@ struct ContentView: View {
                 ImagePicker(image: $inputImage)
             }
             .confirmationDialog("Select a filter", isPresented: $showingFilterSheet) {
-                Button("Crystallize") { setFilter(.crystallize()) }
-                Button("Edges") { setFilter(.edges()) }
-                Button("Gaussian Blur") { setFilter(.gaussianBlur()) }
-                Button("Pixellate") { setFilter(.pixellate()) }
-                Button("Sepia Tone") { setFilter(.sepiaTone()) }
-                Button("Unsharp Mask") { setFilter(.unsharpMask()) }
-                Button("Vignette") { setFilter(.vignette()) }
-                Button("Bloom") { setFilter(.bloom()) }
-                Button("Cancel", role: .cancel) { }
+                Group {
+                    Button("Bloom") { setFilter(.bloom()) }
+                    Button("Crystallize") { setFilter(.crystallize()) }
+                    Button("Edges") { setFilter(.edges()) }
+                    Button("Gaussian Blur") { setFilter(.gaussianBlur()) }
+                    Button("Noir") { setFilter(.photoEffectNoir()) }
+                    Button("Pixellate") { setFilter(.pixellate()) }
+                    Button("Pointillize") { setFilter(.pointillize()) }
+                    Button("Sepia Tone") { setFilter(.sepiaTone()) }
+                    Button("Unsharp Mask") { setFilter(.unsharpMask()) }
+                    Button("Vignette") { setFilter(.vignette()) }
+                }
+                
+                Group {
+                    Button("Cancel", role: .cancel) { }
+                }
+            }
+            .alert("Oops...", isPresented: $showingSaveError) {
+                Button("OK") { }
+            } message: {
+                Text("Sorry there was an error saving your image.")
             }
         }
     }
@@ -126,11 +145,11 @@ struct ContentView: View {
         }
         
         if inputKeys.contains(kCIInputRadiusKey) {
-            currentFilter.setValue(filterRadius * 200, forKey: kCIInputRadiusKey)
+            currentFilter.setValue(filterRadius, forKey: kCIInputRadiusKey)
         }
         
         if inputKeys.contains(kCIInputScaleKey) {
-            currentFilter.setValue(filterScale * 10, forKey: kCIInputScaleKey)
+            currentFilter.setValue(filterScale, forKey: kCIInputScaleKey)
         }
         
         guard let outputImage = currentFilter.outputImage else { return }
